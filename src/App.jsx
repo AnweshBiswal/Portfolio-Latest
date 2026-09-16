@@ -11,6 +11,7 @@ import { EducationTimeline } from '@/components/ui/education-timeline'
 import { SamuraiBackground, SamuraiChrome, useInkRipple } from "@/components/samurai"
 import { ContactCard } from "@/components/ui/contact-card";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { MusicPlayer } from "@/components/ui/music-player";
 import { MailIcon, PhoneIcon, MapPinIcon, Download } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -85,12 +86,47 @@ const portfolioProjects = [
 
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [formStatus, setFormStatus] = useState('idle');
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+
+  const handleFormChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    if (formStatus === 'submitting') return;
+    
+    setFormStatus('submitting');
+    try {
+      const response = await fetch('https://hook.us2.make.com/1rbvnmdk8awmcy76qce2ja0pg7bcn1vg', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setFormStatus('idle'), 5000);
+      } else {
+        setFormStatus('error');
+        setTimeout(() => setFormStatus('idle'), 5000);
+      }
+    } catch (error) {
+      setFormStatus('error');
+      setTimeout(() => setFormStatus('idle'), 5000);
+    }
+  };
 
   useInkRipple();
 
   return (
     <>
       <CustomCursor />
+      <MusicPlayer />
       <SamuraiBackground
         glow
         grid
@@ -441,21 +477,25 @@ function App() {
                 }
               ]}
             >
-              <form action="" className="w-full space-y-6">
+              <form onSubmit={handleContactSubmit} className="w-full space-y-6">
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="contact-name" className="text-foreground/80 text-xs uppercase tracking-widest font-semibold">Name</Label>
-                  <Input id="contact-name" type="text" className="bg-[#1a1c1c] border-border text-foreground focus-visible:ring-[var(--text-primary)]/20" />
+                  <Input id="contact-name" name="name" value={formData.name} onChange={handleFormChange} required type="text" className="bg-[#1a1c1c] border-border text-foreground focus-visible:ring-[var(--text-primary)]/20" />
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="contact-email" className="text-foreground/80 text-xs uppercase tracking-widest font-semibold">Email</Label>
-                  <Input id="contact-email" type="email" className="bg-[#1a1c1c] border-border text-foreground focus-visible:ring-[var(--text-primary)]/20" />
+                  <Input id="contact-email" name="email" value={formData.email} onChange={handleFormChange} required type="email" className="bg-[#1a1c1c] border-border text-foreground focus-visible:ring-[var(--text-primary)]/20" />
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="contact-message" className="text-foreground/80 text-xs uppercase tracking-widest font-semibold">Message</Label>
-                  <Textarea id="contact-message" className="bg-[#1a1c1c] border-border text-foreground min-h-[120px] focus-visible:ring-[var(--text-primary)]/20" />
+                  <Textarea id="contact-message" name="message" value={formData.message} onChange={handleFormChange} required className="bg-[#1a1c1c] border-border text-foreground min-h-[120px] focus-visible:ring-[var(--text-primary)]/20" />
                 </div>
-                <Button className="w-full h-12 mt-4 bg-[var(--text-primary)] text-[var(--bg-deep)] hover:bg-[var(--text-primary)]/90 font-bold tracking-wide" type="button">
-                  Send Message
+                
+                {formStatus === 'success' && <p className="text-green-500 text-sm font-medium">Message sent successfully!</p>}
+                {formStatus === 'error' && <p className="text-red-500 text-sm font-medium">Failed to send message. Please try again.</p>}
+                
+                <Button disabled={formStatus === 'submitting'} className="w-full h-12 mt-4 bg-[var(--text-primary)] text-[var(--bg-deep)] hover:bg-[var(--text-primary)]/90 font-bold tracking-wide" type="submit">
+                  {formStatus === 'submitting' ? 'Sending...' : 'Send Message'}
                 </Button>
               </form>
             </ContactCard>
