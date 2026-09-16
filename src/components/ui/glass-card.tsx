@@ -24,10 +24,10 @@ const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
         {...props}
       >
         <div className="relative h-full rounded-[50px] bg-gradient-to-br from-zinc-900 to-black shadow-2xl transition-all duration-500 ease-in-out [transform-style:preserve-3d] group-hover:[box-shadow:rgba(0,0,0,0.3)_30px_50px_25px_-40px,rgba(0,0,0,0.1)_0px_25px_30px_0px] group-hover:[transform:rotate3d(1,1,0,30deg)]">
-          <div className="absolute inset-2 rounded-[55px] border-b border-l border-white/20 bg-gradient-to-b from-white/30 to-white/10 backdrop-blur-sm [transform-style:preserve-3d] [transform:translate3d(0,0,25px)]"></div>
+          <div className="absolute inset-2 rounded-[55px] border-b border-l border-foreground/20 bg-gradient-to-b from-foreground/30 to-foreground/10 backdrop-blur-sm [transform-style:preserve-3d] [transform:translate3d(0,0,25px)]"></div>
           <div className="absolute [transform:translate3d(0,0,26px)]">
             <div className="px-7 pt-[100px] pb-0">
-              <span className="block text-xl font-black text-white">
+              <span className="block text-xl font-black text-foreground">
                 Resume
               </span>
               <span className="mt-5 block text-[15px] text-zinc-300">
@@ -37,10 +37,10 @@ const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
           </div>
           <div className="absolute bottom-5 left-5 right-5 flex items-center justify-end [transform-style:preserve-3d] [transform:translate3d(0,0,26px)] z-50">
             <a href="/Anwesh_Biswal_Resume_Complete.pdf" target="_blank" rel="noopener noreferrer" className="flex w-3/5 cursor-pointer items-center justify-end transition-all duration-200 ease-in-out hover:[transform:translate3d(0,0,10px)] relative z-50 pointer-events-auto">
-              <button className="border-none bg-none text-xs font-bold text-white pointer-events-none">
+              <button className="border-none bg-none text-xs font-bold text-foreground pointer-events-none">
                 View resume
               </button>
-              <ChevronDown className="h-4 w-4 stroke-white pointer-events-none" strokeWidth={3} />
+              <ChevronDown className="h-4 w-4 stroke-foreground pointer-events-none" strokeWidth={3} />
             </a>
           </div>
           <div className="absolute top-0 right-0 [transform-style:preserve-3d] pointer-events-none">
@@ -52,7 +52,7 @@ const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
             ].map((circle, index) => (
               <div
                 key={index}
-                className="absolute aspect-square rounded-full bg-white/10 shadow-[rgba(100,100,111,0.2)_-10px_10px_20px_0px] transition-all duration-500 ease-in-out"
+                className="absolute aspect-square rounded-full bg-foreground/10 shadow-[rgba(100,100,111,0.2)_-10px_10px_20px_0px] transition-all duration-500 ease-in-out"
                 style={{
                   width: circle.size,
                   top: circle.pos,
@@ -63,7 +63,7 @@ const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
               ></div>
             ))}
             <div
-              className="absolute grid aspect-square w-[50px] place-content-center rounded-full bg-white shadow-[rgba(100,100,111,0.2)_-10px_10px_20px_0px] transition-all duration-500 ease-in-out [transform:translate3d(0,0,100px)] [transition-delay:1.6s] group-hover:[transform:translate3d(0,0,120px)]"
+              className="absolute grid aspect-square w-[50px] place-content-center rounded-full bg-foreground shadow-[rgba(100,100,111,0.2)_-10px_10px_20px_0px] transition-all duration-500 ease-in-out [transform:translate3d(0,0,100px)] [transition-delay:1.6s] group-hover:[transform:translate3d(0,0,120px)]"
               style={{ top: "30px", right: "30px" }}
             >
               <ULogo className="w-5 fill-black" />

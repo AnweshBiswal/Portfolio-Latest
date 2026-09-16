@@ -140,7 +140,7 @@ export default function ProfileCard({ data }: { data: any }) {
             transform: hover ? 'translateY(-70%)' : 'translateY(0%)',
           }}
         >
-          <div className="absolute inset-0 bg-black/40 rounded-3xl backdrop-blur-md border border-white/5 shadow-lg" />
+          <div className="absolute inset-0 bg-black/40 rounded-3xl backdrop-blur-md border border-foreground/5 shadow-lg" />
           <div
             className={`
               absolute 

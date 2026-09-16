@@ -7,11 +7,33 @@
   --font-sans: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial, sans-serif;
   --font-serif: "Helvetica Neue ME", Helvetica, Arial, sans-serif;
 
-  --color-background: #0b0c0c;
-  --color-foreground: #efeee9;
-  --color-primary: #efeee9;
-  --color-muted: #1a1a1a;
-  --color-border: #333535;
+  --color-background: var(--bg-deep);
+  --color-foreground: var(--text-primary);
+  --color-primary: var(--text-primary);
+  --color-muted: var(--bg-card);
+  --color-border: var(--border-color);
+}
+
+:root {
+  --bg-deep: #0b0c0c;
+  --bg-card: #111212;
+  --bg-card-hover: #1e2020;
+  --text-primary: #efeee9;
+  --text-secondary: rgba(239, 238, 233, 0.7);
+  --border-color: #333535;
+  --samurai-bg: #000000;
+  --samurai-effect: 255, 255, 255;
+}
+
+.light-theme {
+  --bg-deep: #f5f5f5;
+  --bg-card: #ffffff;
+  --bg-card-hover: #e0e0e0;
+  --text-primary: #111212;
+  --text-secondary: rgba(17, 18, 18, 0.7);
+  --border-color: #d1d5db;
+  --samurai-bg: #ffffff;
+  --samurai-effect: 0, 0, 0;
 }
 
 @keyframes fade-in {
@@ -98,6 +120,10 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -366,3 +392,97 @@ h2 {
     transform: translateY(0px) rotate(15deg) scaleX(-1);
   }
 }
+
+/* Metric and Impact Indicators */
+.indicator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--primary-accent);
+  display: inline-block;
+  transition: all 150ms ease-out;
+}
+.indicator-dot.active {
+  background-color: #4ade80; /* Green active status */
+}
+
+@keyframes rotate-gradient {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes borderBeamRotation {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Samurai Background Animations */
+@keyframes sky-grid {
+  0% { background-position: 0 0; }
+  100% { background-position: 56px 56px; }
+}
+.samurai-grid {
+  animation: sky-grid 9s linear infinite;
+}
+
+@keyframes sky-orb {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.1) translate(20px, -20px); }
+}
+.samurai-orb {
+  animation: sky-orb 7s ease-in-out infinite alternate;
+}
+
+.ink-ripple {
+  position: fixed;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--samurai-effect), 0.8);
+  pointer-events: none;
+  animation: ink-ripple-anim 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  z-index: 9999;
+}
+
+@keyframes ink-ripple-anim {
+  0% { transform: scale(0); opacity: 1; border-width: 4px; }
+  100% { transform: scale(1.5); opacity: 0; border-width: 1px; }
+}
+
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+/* Custom Sword Cursor Animations */
+@keyframes sword-glow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(100, 180, 255, 0.4)); }
+  50% { filter: drop-shadow(0 0 16px rgba(100, 180, 255, 0.8)); }
+}
+
+@keyframes sword-glow-intense {
+  0%, 100% { filter: drop-shadow(0 0 12px rgba(150, 220, 255, 0.8)); transform: scale(1.15); }
+  50% { filter: drop-shadow(0 0 24px rgba(200, 240, 255, 1)); transform: scale(1.25); }
+}
+
+@keyframes sword-click-ripple {
+  0% { transform: scale(0.2); opacity: 0.8; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+.animate-sword-glow {
+  animation: sword-glow 2s ease-in-out infinite;
+}
+
+.animate-sword-glow-intense {
+  animation: sword-glow-intense 1s ease-in-out infinite;
+}
+
+

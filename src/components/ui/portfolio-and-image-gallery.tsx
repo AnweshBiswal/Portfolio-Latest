@@ -40,7 +40,13 @@ function useResponsiveValue(baseValue: number, mobileValue: number) {
     if (typeof window === 'undefined') return;
 
     const handleResize = () => {
-      setValue(window.innerWidth < 768 ? mobileValue : baseValue);
+      if (window.innerWidth < 768) {
+        // Dynamically scale mobile radius based on screen width (max 220px)
+        const dynamicRadius = Math.min(window.innerWidth * 0.35, mobileValue);
+        setValue(dynamicRadius);
+      } else {
+        setValue(baseValue);
+      }
     };
 
     handleResize();
@@ -136,7 +142,11 @@ export const RadialScrollGallery = forwardRef<
           hasChanged = true;
         }
         if (hasChanged) {
-          ScrollTrigger.refresh();
+          // Debounce refresh to prevent massive lag during scroll
+          clearTimeout((window as any)._scrollRefreshTimeout);
+          (window as any)._scrollRefreshTimeout = setTimeout(() => {
+            ScrollTrigger.refresh();
+          }, 300);
         }
       });
 
@@ -177,9 +187,10 @@ export const RadialScrollGallery = forwardRef<
             scrollTrigger: {
               trigger: pinRef.current,
               pin: true,
+              anticipatePin: 1,
               start: startTrigger,
               end: `+=${scrollDuration}`,
-              scrub: 1,
+              scrub: 0.15,
               invalidateOnRefresh: true,
             },
           });
